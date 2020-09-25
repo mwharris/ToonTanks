@@ -1,11 +1,10 @@
 #include "PawnBase.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "ToonTanks/Actors/ProjectileBase.h"
 
-// Sets default values
 APawnBase::APawnBase()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	CapsuleComp = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule Collider"));
@@ -21,20 +20,31 @@ APawnBase::APawnBase()
 	ProjectileSpawnPoint->SetupAttachment(TurretMesh);
 }
 
-// Called when the game starts or when spawned
-void APawnBase::BeginPlay()
+// Update the rotation of Turret Mesh to point at the LookAtTarget (called from PawnTank and PawnTurret)
+void APawnBase::RotateTurret(FVector LookAtTarget) 
 {
-	Super::BeginPlay();
+	// Create a version of LookAtTarget disregarding changes on the Z (up) axis
+	FVector LookAtTargetClean = FVector(LookAtTarget.X, LookAtTarget.Y, TurretMesh->GetComponentLocation().Z);
+	FVector StartLocation = TurretMesh->GetComponentLocation();
+	// Subtract our LookAtTarget from our Location to get the vector pointing from Turret->LookAt
+	FRotator Rotator = FVector(LookAtTargetClean - StartLocation).Rotation();
+	// Update our Rotation to match this vector
+	TurretMesh->SetWorldRotation(Rotator);
 }
 
-// Called every frame
-void APawnBase::Tick(float DeltaTime)
+void APawnBase::Fire() 
 {
-	Super::Tick(DeltaTime);
+	if (ProjectileClass) 
+	{
+		FVector Location = ProjectileSpawnPoint->GetComponentLocation();
+		FRotator Rotator = ProjectileSpawnPoint->GetComponentRotation();
+		AProjectileBase* TempProjectile = GetWorld()->SpawnActor<AProjectileBase>(ProjectileClass, Location, Rotator);
+		TempProjectile->SetOwner(this);
+	}
 }
 
-// Called to bind functionality to input
-void APawnBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void APawnBase::HandleDestruction() 
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	// --- Shared ---
+	// Play death particles, sound, and camera shake
 }
