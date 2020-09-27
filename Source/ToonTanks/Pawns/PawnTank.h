@@ -26,6 +26,7 @@ private:
 	FVector MoveDirection;
 	FQuat RotationDirection;
 	APlayerController* PlayerControllerRef;
+	bool bIsPlayerAlive = true;
 	
 	void CalculateMoveInput(float AxisValue);
 	void CalculateRotateInput(float AxisValue);
@@ -38,6 +39,7 @@ public:
 	virtual void HandleDestruction() override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	bool GetIsPlayerAlive();
 
 protected:
 	// Called when the game starts or when spawned

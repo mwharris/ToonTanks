@@ -4,8 +4,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "TimerManager.h"
 
-APawnTurret::APawnTurret()
-{
+APawnTurret::APawnTurret() 
+{ 
 
 }
 
@@ -52,15 +52,20 @@ void APawnTurret::CheckFireCondition()
     }
 }
 
+bool APawnTurret::PlayerInFireRange() 
+{
+    if (!IsPlayerValid()) { return false; }
+    return ReturnDistanceToPlayer() <= FireRange;
+}
+
 float APawnTurret::ReturnDistanceToPlayer() 
 {
-    if (!PlayerPawn) { return 0.f; }
+    if (!IsPlayerValid()) { return 0.f; }
     // Determine the distance between this turret and the player
     return FVector::Dist(PlayerPawn->GetActorLocation(), GetActorLocation());
 }
 
-bool APawnTurret::PlayerInFireRange() 
+bool APawnTurret::IsPlayerValid() 
 {
-    if (!PlayerPawn) { return false; }
-    return ReturnDistanceToPlayer() <= FireRange;
+    return PlayerPawn && PlayerPawn->GetIsPlayerAlive();
 }

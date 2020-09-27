@@ -23,9 +23,13 @@ void APawnTank::BeginPlay()
 void APawnTank::HandleDestruction() 
 {
     // Call parent class first to handle general destruction tasks
-    Super::HandleDestruction();    
-	// TODO: Inform the GameMode that the Player died
-	// TODO: Hide() all components and stop movement input
+    Super::HandleDestruction();
+    // Mark us as dead
+    bIsPlayerAlive = false;
+    // Hide the tank in-game
+    SetActorHiddenInGame(true);
+    // Don't call Tick() anymore
+    SetActorTickEnabled(false);
 }
 
 void APawnTank::Tick(float DeltaTime)
@@ -79,4 +83,9 @@ void APawnTank::Move()
 void APawnTank::Rotate() 
 {
     AddActorLocalRotation(RotationDirection, true);
+}
+
+bool APawnTank::GetIsPlayerAlive() 
+{
+    return bIsPlayerAlive;
 }

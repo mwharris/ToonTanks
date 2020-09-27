@@ -24,6 +24,7 @@ private:
 	void RotateTowardsPlayer();
 	float ReturnDistanceToPlayer();
 	bool PlayerInFireRange();
+	bool IsPlayerValid();
 	
 public:
 	APawnTurret();
