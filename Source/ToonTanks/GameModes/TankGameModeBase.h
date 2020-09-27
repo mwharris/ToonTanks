@@ -5,6 +5,7 @@
 #include "TankGameModeBase.generated.h"
 
 class APawnTank;
+class APlayerControllerBase;
 
 UCLASS()
 class TOONTANKS_API ATankGameModeBase : public AGameModeBase
@@ -14,13 +15,16 @@ class TOONTANKS_API ATankGameModeBase : public AGameModeBase
 private:
 	APawnTank* PlayerTank;
 	int32 NumTurrets = 0;
+	APlayerControllerBase* PlayerControllerRef;
 	
 	// These will call our blueprint-implemented GameStart() and GameOver() appropriately.
 	// So the logic on whether to start or end the game will be handled in C++ but some of the
 	// trickier implementation will be handled inside of blueprints.
 	void HandleGameStart();
 	void HandleGameOver(bool PlayerWon);
+	
 	int32 GetNumberOfTurrets();
+	void EnablePlayerAfterStart();
 
 public:
 	// Called by Turret or Tank.
