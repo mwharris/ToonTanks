@@ -4,20 +4,23 @@
 #include "GameFramework/GameModeBase.h"
 #include "TankGameModeBase.generated.h"
 
-/**
- * 
- */
+class APawnTank;
+
 UCLASS()
 class TOONTANKS_API ATankGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 
 private:
+	APawnTank* PlayerTank;
+	int32 NumTurrets = 0;
+	
 	// These will call our blueprint-implemented GameStart() and GameOver() appropriately.
 	// So the logic on whether to start or end the game will be handled in C++ but some of the
 	// trickier implementation will be handled inside of blueprints.
 	void HandleGameStart();
 	void HandleGameOver(bool PlayerWon);
+	int32 GetNumberOfTurrets();
 
 public:
 	// Called by Turret or Tank.
@@ -25,6 +28,9 @@ public:
 	void ActorDied(AActor* DeadActor);
 
 protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Game Loop")
+	int32 StartDelay = 4;
+
 	// Initialize everything needed to handle game mode functionality (scores, timers, etc.)
 	virtual void BeginPlay() override;
 	

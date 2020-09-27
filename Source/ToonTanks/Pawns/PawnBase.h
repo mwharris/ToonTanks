@@ -31,12 +31,11 @@ private:
 	TSubclassOf<AProjectileBase> ProjectileClass;
 
 public:
-	// Sets default values for this pawn's properties
 	APawnBase();
+	virtual void HandleDestruction();
 
 protected:
 	void RotateTurret(FVector LookAtTarget);
 	void Fire();
-	virtual void HandleDestruction();
 
 };
