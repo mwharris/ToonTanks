@@ -2,6 +2,8 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "ToonTanks/Actors/ProjectileBase.h"
+#include "ToonTanks/Components/HealthComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 APawnBase::APawnBase()
 {
@@ -18,6 +20,8 @@ APawnBase::APawnBase()
 
 	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Projectile Spawn Point"));
 	ProjectileSpawnPoint->SetupAttachment(TurretMesh);
+
+	HealthComp = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
 }
 
 // Update the rotation of Turret Mesh to point at the LookAtTarget (called from PawnTank and PawnTurret)
@@ -45,6 +49,6 @@ void APawnBase::Fire()
 
 void APawnBase::HandleDestruction() 
 {
-	// --- Shared ---
-	// Play death particles, sound, and camera shake
+	UGameplayStatics::SpawnSoundAtLocation(this, DeathSound, GetActorLocation());
+	UGameplayStatics::SpawnEmitterAtLocation(this, DeathParticle, GetActorLocation());
 }
