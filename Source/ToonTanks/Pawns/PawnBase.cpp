@@ -22,6 +22,12 @@ APawnBase::APawnBase()
 	ProjectileSpawnPoint->SetupAttachment(TurretMesh);
 
 	HealthComp = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
+
+	LaserSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Laser Start"));
+	LaserSpawnPoint->SetupAttachment(TurretMesh);
+
+	LaserEndPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Laser End"));
+	LaserEndPoint->SetupAttachment(TurretMesh);
 }
 
 // Update the rotation of Turret Mesh to point at the LookAtTarget (called from PawnTank and PawnTurret)
@@ -51,4 +57,5 @@ void APawnBase::HandleDestruction()
 {
 	UGameplayStatics::SpawnSoundAtLocation(this, DeathSound, GetActorLocation());
 	UGameplayStatics::SpawnEmitterAtLocation(this, DeathParticle, GetActorLocation());
+	GetWorld()->GetFirstPlayerController()->ClientPlayCameraShake(DeathShake);
 }

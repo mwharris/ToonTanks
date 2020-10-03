@@ -13,26 +13,33 @@ class TOONTANKS_API APawnTank : public APawnBase
 	GENERATED_BODY()
 
 private:
+	// COMPONENTS
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	USpringArmComponent* SpringArm;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* Camera;
 	
+	// VARIABLES
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement", meta = (AllowPrivateAccess = "true"))
 	float MoveSpeed = 100.0f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement", meta = (AllowPrivateAccess = "true"))
 	float RotateSpeed = 100.0f;
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	UParticleSystem* LaserPointerParticle;
 
 	FVector MoveDirection;
 	FQuat RotationDirection;
 	APlayerController* PlayerControllerRef;
 	bool bIsPlayerAlive = true;
+	UParticleSystemComponent* SpawnedLaserEmitter;
 	
+	// FUNCTIONS
 	void CalculateMoveInput(float AxisValue);
 	void CalculateRotateInput(float AxisValue);
 
 	void Move();
 	void Rotate();
+	void HandleLaserPointer();
 
 public:
 	APawnTank();

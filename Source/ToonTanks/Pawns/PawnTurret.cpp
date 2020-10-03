@@ -22,7 +22,6 @@ void APawnTurret::HandleDestruction()
 {
     // Call parent class first to handle general destruction tasks
     Super::HandleDestruction();
-	// TODO: Inform the GameMode that the Turret died
     // Destroy ourselves
     Destroy();
 }

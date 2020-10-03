@@ -33,12 +33,19 @@ private:
 	UParticleSystem* DeathParticle;
 	UPROPERTY(EditAnywhere, Category="Effects")
 	USoundBase* DeathSound;
+	UPROPERTY(EditAnywhere, Category="Effects")
+	TSubclassOf<UCameraShake> DeathShake;
 
 public:
 	APawnBase();
 	virtual void HandleDestruction();
 
 protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))	
+	USceneComponent* LaserSpawnPoint;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	USceneComponent* LaserEndPoint;
+	
 	void RotateTurret(FVector LookAtTarget);
 	void Fire();
 

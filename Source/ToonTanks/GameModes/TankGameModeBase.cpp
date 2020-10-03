@@ -1,6 +1,7 @@
+#include "TankGameModeBase.h"
+#include "Blueprint/UserWidget.h"
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
-#include "TankGameModeBase.h"
 #include "TimerManager.h"
 #include "ToonTanks/Pawns/PawnTank.h"
 #include "ToonTanks/Pawns/PawnTurret.h"
@@ -10,6 +11,7 @@ void ATankGameModeBase::BeginPlay()
 {
     Super::BeginPlay();
     HandleGameStart();
+    CreateScoreWidget();
 }
 
 void ATankGameModeBase::HandleGameStart() 
@@ -59,6 +61,8 @@ void ATankGameModeBase::ActorDied(AActor* DeadActor)
     else if (APawnTurret* DestroyedTurret = Cast<APawnTurret>(DeadActor))
     {
         // If successful, we killed a Turret
+        Score++;
+        UpdateScoreWidget(Score);
         DestroyedTurret->HandleDestruction();
         // Decrement the number of turrets, end game if none are left
         if (--NumTurrets <= 0) 
@@ -68,12 +72,9 @@ void ATankGameModeBase::ActorDied(AActor* DeadActor)
     }
 }
 
+// Call the Blueprint version of GameOver(PlayerWon)
 void ATankGameModeBase::HandleGameOver(bool PlayerWon) 
 {
-    // Check if the player destroyed all turrets
-    // Show win result if they did
-    // Show lose result if they didn't
-    // Call the Blueprint version of GameOver(PlayerWon)
     GameOver(PlayerWon);
 }
 

@@ -34,6 +34,9 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Game Loop")
 	int32 StartDelay = 4;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Game Loop")
+	int32 Score = 0;
 
 	// Initialize everything needed to handle game mode functionality (scores, timers, etc.)
 	virtual void BeginPlay() override;
@@ -46,5 +49,11 @@ protected:
 	// End the game in either a Win or Lose state
 	UFUNCTION(BlueprintImplementableEvent)
 	void GameOver(bool PlayerWon);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void CreateScoreWidget();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void UpdateScoreWidget(int32 NewScore);
 
 };
