@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "PawnBase.h"
+#include "AIController.h"
 #include "PawnHunter.generated.h"
 
 class APawnTank;
@@ -18,11 +19,13 @@ private:
 	float FireRange = 500.f;
 
 	APawnTank* PlayerTank;
+	AAIController* AIController;
 	FTimerHandle FireRateTimerHandle;
 
 	void CheckFireCondition();
 	float GetDistanceToPlayer();
 	bool PlayerInFireRange();
+	bool IsPlayerValid();
 
 public:
 	virtual void HandleDestruction() override;
